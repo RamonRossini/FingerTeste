@@ -15,11 +15,11 @@ import { AdressesModule } from './adresses/adresses.module';
       password: 'senha',
       database: 'FingerTeste',
       entities: ["dist/**/*.entity{.ts,.js}"],
-      migrationsTableName: 'migration',
-      migrations: ['src/migration/*.ts'],
+      migrations: ['dist/migration/*.js'],
       cli: {
         'migrationsDir': 'src/migration'
       },
+      // migrationsTableName: 'migration',
       synchronize: true
     }),
     UsersModule,
