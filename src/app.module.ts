@@ -14,11 +14,11 @@ import { AdressesModule } from './adresses/adresses.module';
       username: 'postgres',
       password: 'senha',
       database: 'FingerTeste',
-      entities: ["dist/**/*.entity{.ts,.js}"],
-      migrations: ['dist/migration/*.js'],
-      cli: {
-        'migrationsDir': 'src/migration'
-      },
+      entities: [__dirname + '/**/*.entity{.ts,.js}'],
+      // migrations: ['dist/migration/*.js'],
+      // cli: {
+      //   'migrationsDir': 'src/migration'
+      // },
       // migrationsTableName: 'migration',
       synchronize: true
     }),

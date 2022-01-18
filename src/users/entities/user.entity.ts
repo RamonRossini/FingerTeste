@@ -18,7 +18,7 @@ export class User {
     @CreateDateColumn({type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
     created_at: Date;
 
-    @OneToOne(() => Address)
+    @OneToOne(() => Address, {cascade: true})
     @JoinColumn()
     address: Address;
 }
