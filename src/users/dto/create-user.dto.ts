@@ -4,5 +4,5 @@ export class CreateUserDto {
     firstName: string;
     lastName: string;
     isActive?: boolean;
-    address: Address;
+    address?: Address;
 }

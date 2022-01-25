@@ -25,5 +25,8 @@ export class Address {
     estado: string;
 
     @Column({nullable: true})
-    complemento: string
+    complemento: string;
+
+    @OneToOne(() => User, {onDelete: 'NO ACTION'})
+    user: User;
 }

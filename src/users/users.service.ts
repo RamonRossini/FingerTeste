@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Address } from 'src/adresses/entities/adress.entity';
-import { Repository } from 'typeorm';
+import { Connection, Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
@@ -13,7 +13,9 @@ export class UsersService {
     private usersRepository: Repository<User>,
 
     @InjectRepository(Address)
-    private addressRepository: Repository<Address>
+    private addressRepository: Repository<Address>,
+
+    private connection: Connection
   ) { }
 
   async create(createUserDto: CreateUserDto) {
@@ -22,6 +24,26 @@ export class UsersService {
     const createUser = this.usersRepository.create(createUserDto);
 
     return this.usersRepository.save(createUser);
+  }
+
+  async createMany(users: User[]) {
+    const queryRunner = this.connection.createQueryRunner();
+
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+    try {
+      await users.forEach(user => {
+        queryRunner.manager.save(user);
+      })
+
+      await queryRunner.commitTransaction();
+    } catch (err) {
+      // se houver erro, faz rollback do que foi feito
+      await queryRunner.rollbackTransaction();
+    } finally {
+      // lança a queryRunner
+      await queryRunner.release();
+    }
   }
 
   findAll() {
@@ -37,6 +59,6 @@ export class UsersService {
   }
 
   remove(id: number) {
-    return `This action removes a #${id} user`;
+    return this.usersRepository.delete(id);
   }
 }

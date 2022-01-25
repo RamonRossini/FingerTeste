@@ -12,6 +12,11 @@ export class UsersController {
     return this.usersService.create(createUserDto);
   }
 
+  @Post('many')
+  createMany(@Body() users: any) {
+    return this.usersService.create(users);
+  }
+
   @Get()
   findAll() {
     return this.usersService.findAll();
